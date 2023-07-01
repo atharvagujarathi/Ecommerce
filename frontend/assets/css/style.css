@@ -57,9 +57,40 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+    
+}
+
+.homepage_second_navbar_names {
+    color: #333;
+    margin-left: 0px;
+}
+
+.homapage_second_navbar_table_content {
+    color: #333;
 }
 
 .homepage_second_navbar {
-    text-align: center;
+    width: auto;
     padding: 15px;
 }
+
+.homepage-carousel {
+    width: 100%;
+    height: 500px;
+}
+
+.homepage_cards_images {
+    width: 100%;
+    height: 300px;
+}
+
+.homepage_cards_images_modal {
+    width: 100%;
+    height: 250px;
+}
+
+
+.example::-webkit-scrollbar {
+    display: none;
+}
+

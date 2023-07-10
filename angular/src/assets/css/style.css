@@ -1,0 +1,100 @@
+
+
+/* register section */
+.register_image {
+    border-radius: 10px;
+}
+
+.login_button_register {
+    text-decoration: none;
+    color: #fff;
+}
+
+/* login section */
+.bg-image-vertical {
+    position: relative;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+}
+    
+@media (min-width: 1025px) {
+    .h-custom-2 {
+    height: 50%;
+}
+}
+
+.login_image {
+    border-radius: 10px;
+    
+    width: 100%;
+}
+
+.login_heading {
+    margin-top: 500px;
+}
+
+.login_form {
+    margin-top: 90px;
+}
+
+/* First Navbar Section */
+
+
+/* Second Navbar Section */
+
+.second_navbar_li {
+    margin-left: 30px;
+}
+
+/* Homepage Section */
+
+.homepage_navbar_images {
+    height: 90px;
+    width: 75px;
+    border-radius: 5px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.homepage_second_navbar_names {
+    color: #333;
+    margin-left: 0px;
+}
+
+.homapage_second_navbar_table_content {
+    color: #333;
+}
+
+.homepage_second_navbar {
+    width: auto;
+    padding: 15px;
+}
+
+.homepage-carousel {
+    width: 100%;
+    height: 500px;
+}
+
+.homepage_cards_images {
+    width: 100%;
+    height: 300px;
+}
+
+.homepage_cards_images_modal {
+    width: 100%;
+    height: 250px;
+}
+
+
+.example::-webkit-scrollbar {
+    display: none;
+}
+
+/* footer section */
+
+
+

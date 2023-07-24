@@ -1,36 +1,75 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const app = express();
-const login = require("./routes/login");
-const { Schema } = mongoose;
+const bodyParser = require("body-parser");
+// const login = require("./routes/login");
 
-const cors = require("cors");
 app.use(express.urlencoded({ extended: false }));
-
-// Define the Admin schema
-const adminSchema = new Schema({
-  username: String,
-  email: String,
-  // Add other admin fields as needed
-});
-
-// Define the Password schema
-const passwordSchema = new Schema({
-  adminId: { type: Schema.Types.ObjectId, ref: "Admin" },
-  password: String,
-  // Add other password fields as needed
-});
-
-// Create the Admin model
-const Admin = mongoose.model("Admin", adminSchema);
-
-// Create the Password model
-const Password = mongoose.model("Password", passwordSchema);
+app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/ecw", {
+mongoose.connect("mongodb://localhost:27017/user_auth", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+});
+
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+});
+
+const User = mongoose.model("User", userSchema);
+
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if the user already exists
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(409).json({ message: "Username already exists" });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
+
+    return res.status(201).json({ message: "Registration successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if the user exists in the database
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Compare the provided password with the hashed password stored in the database
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // If everything is valid, return a success message
+    return res.json({ message: "Login successful" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 // Get the default connection
@@ -46,15 +85,9 @@ db.on("error", (err) => {
   console.error("MongoDB connection error:", err);
 });
 
-// Use the auth route
-app.use("/", login);
+// // Use the auth route
+// app.use("/", login);
 
 app.listen(3000, (req, res) => {
   console.log("App connected successfully on port 3000");
 });
-
-// Export the models
-module.exports = {
-  Admin,
-  Password,
-};
